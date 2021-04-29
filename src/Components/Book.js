@@ -13,20 +13,20 @@ const Book=(props) => {
         <Card>
             
             <Card.Title>
-                <img src={bookIcon} />
+                <img src={bookIcon} alt='book-icon' />
                 {props.title}
             </Card.Title>
 
             <Card.Subtitle>
-                <img src={person} />
+                <img src={person} alt='person-icon' />
                 {props.author}
             </Card.Subtitle>
             <Card.Text>
-                <img src={genre} />
+                <img src={genre} alt='genre-icon' />
                 {props.genre}
             </Card.Text>
             <Card.Text>
-                <img src={pages} />
+                <img src={pages} alt='pages-icon' />
                 {props.pages}
             </Card.Text>
         </Card>

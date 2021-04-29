@@ -4,7 +4,7 @@ import Book from './Book'
 
 
 
-import {Container, Row, Col, ProgressBar, Card, Button} from 'react-bootstrap';
+import {Container, Row, ProgressBar, Card, Button} from 'react-bootstrap';
 
 const MainPage=() => {
 
