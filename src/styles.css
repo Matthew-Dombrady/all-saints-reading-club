@@ -1,0 +1,11 @@
+.row-1 {
+    margin-top: 25px;
+}
+.add-book {
+    width: 100px;
+    height: 100px;
+    font-weight: 700;
+}
+.title {
+    font-size: 30px;
+}
