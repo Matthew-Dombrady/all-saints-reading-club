@@ -1,7 +1,6 @@
 import React from 'react';
 import '../styles.css'; 
 import Book from './Book'
-import { ArrowRight } from 'react-bootstrap-icons';
 
 
 
