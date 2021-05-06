@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles.css'; 
-import './SignUp';
-
-
+import { firebaseApp } from '../index';
 
 import {Navbar, Nav, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import SignUp from './SignUp';
+import Login from './Login';
+
 
 const MenuBar=() => {
+
+    const [visible, setVisible] = useState(false);
+    const [visible1, setVisible1] = useState(false);
 
     return (
 
@@ -18,20 +21,35 @@ const MenuBar=() => {
                 <Nav className="mr-auto">
 
                     <OverlayTrigger
-                            trigger="click"
                             placement="bottom"
+                            show={visible1}
                             overlay={
                                 <Popover id={`popover-positioned-bottom`}>
-                                <Popover.Title as="h3">Create New Account</Popover.Title>
+                                <Popover.Title as="h3">Login </Popover.Title>
                                 <Popover.Content>
-                                    <SignUp />
+                                    <Login toggleVisible={setVisible1} />
                                 </Popover.Content>
                                 </Popover>
                             }
                             >
-                            <Button variant="secondary">Join the Club!</Button>
+                            <Button variant="primary" onClick={setVisible1}>Login</Button>
                     </OverlayTrigger>
-                    <Nav.Link href="#signin">Sign In</Nav.Link>
+
+                    <OverlayTrigger
+                            placement="bottom"
+                            show={visible}
+                            overlay={
+                                <Popover id={`popover-positioned-bottom`}>
+                                <Popover.Title as="h3">Create New Account </Popover.Title>
+                                <Popover.Content>
+                                    <SignUp toggleVisible={setVisible} />
+                                </Popover.Content>
+                                </Popover>
+                            }
+                            >
+                            <Button variant="light" style={{marginLeft:'5px'}} onClick={setVisible}>Join the Club!</Button>
+                    </OverlayTrigger>
+
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

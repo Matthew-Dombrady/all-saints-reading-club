@@ -3,11 +3,27 @@ import '../styles.css';
 import Book from './Book'
 import Navbar from './Navbar';
 
-
+import "firebase/auth";
+import { firebaseApp } from '../index';
 
 import {Container, Row, ProgressBar, Card, Button} from 'react-bootstrap';
 
+
 const MainPage=() => {
+
+    firebaseApp.auth().onAuthStateChanged()
+        .then((user) => {
+            console.log(user);
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert("ERROR: " + errorMessage);
+            console.log(error);
+    });
+
+
+
 
     return (
 

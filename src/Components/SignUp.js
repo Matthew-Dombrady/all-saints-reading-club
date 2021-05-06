@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import '../styles.css'; 
 
-import {Form, Button, Dropdown} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 
 import "firebase/auth";
 import { firebaseApp } from '../index';
 
-const SignUp=() => {
+const SignUp=(props) => {
 
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -14,6 +14,10 @@ const SignUp=() => {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [grade, setGrade] = useState("");
+
+    function hide() {
+        props.toggleVisible(false);
+    }
 
     const createAccount = () => {
 
@@ -30,17 +34,19 @@ const SignUp=() => {
 
             firebaseApp.auth().createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
+                    console.log("User signed up");
                     console.log(userCredential);
 
-                    /*const Http = new XMLHttpRequest();
-                    const url='http://localhost:5000/all-saints-reading-club/us-central1/student-addStudent?firstName=Matteo&lastName=Sfogliatine&grade=6&email=ahhh@ahhh.com';
+                    const Http = new XMLHttpRequest();
+                    const url='http://localhost:5000/all-saints-reading-club/us-central1/student-addStudent?firstName=' + first + '&lastName=' + last + '&grade=' + grade + '&email=' + email;
                     Http.open("GET", url);
                     Http.send();
 
                     Http.onreadystatechange = (e) => {
                         console.log(Http.responseText)
-                    }*/
+                    }
 
+                    hide();
 
                 })
                 .catch((error) => {
@@ -102,6 +108,7 @@ const SignUp=() => {
             <Button variant="primary" type="button" onClick={createAccount}>
                 Sign Up
             </Button>
+            <Button variant='light' onClick={hide}>Close</Button>
         </Form>
     )
 };
