@@ -4,7 +4,7 @@ import '../styles.css';
 import {Form, Button, Dropdown} from 'react-bootstrap';
 
 import "firebase/auth";
-import { firebaseApp } from '../index';
+import { firebaseApp } from '../firebase';
 
 const Login=(props) => {
 
@@ -19,8 +19,7 @@ const Login=(props) => {
         props.toggleVisible(false);
     }
 
-    const createAccount = () => {
-
+    const login = () => {
 
         if (email == "" || password == "") {
             alert("Please make sure you filled in your email and password!");
@@ -32,6 +31,7 @@ const Login=(props) => {
                 .then((userCredential) => {
                     console.log("User logged in");
                     console.log(userCredential);
+                    hide();
                 })
                 .catch((error) => {
                     var errorCode = error.code;
@@ -59,7 +59,7 @@ const Login=(props) => {
                 <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
             </Form.Group>
 
-            <Button variant="primary" type="button" onClick={createAccount}>
+            <Button variant="primary" type="button" onClick={login}>
                 Login
             </Button>
             <Button variant='light' onClick={hide}>Close</Button>

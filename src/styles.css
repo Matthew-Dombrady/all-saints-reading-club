@@ -8,4 +8,26 @@
 }
 .title {
     font-size: 30px;
+    font-weight: 600;
+    color:midnightblue;
+}
+.main-card {
+    background-color: transparent;
+    border: none;
+}
+.book-col {
+    margin-left: -140px;
+}
+.book-row {
+    margin-bottom: 10px;
+}
+.book-card {
+    width: 300px
+}
+.book-icon {
+    width: 30px;
+}
+.book-text {
+    font-size: 22px;
+    margin-bottom: 7px;
 }

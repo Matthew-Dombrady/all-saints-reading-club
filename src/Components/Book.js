@@ -5,30 +5,30 @@ import person from '../Assets/person.svg'
 import pages from '../Assets/pages.svg'
 import genre from '../Assets/genre.svg'
 
-import {Card} from 'react-bootstrap';
+import {Card, Container, Row, Col} from 'react-bootstrap';
 
 const Book=(props) => {
 
     return (
-        <Card>
-            
-            <Card.Title>
-                <img src={bookIcon} alt='book-icon' />
-                {props.title}
-            </Card.Title>
+        <Card className='book-card'> 
+            <Container>
+                <Row>
+                    <Col>
+                        <Row className='book-row'><img className='book-icon' src={bookIcon} alt='book-icon' /></Row>
+                        <Row className='book-row'><img className='book-icon' src={person} alt='person-icon' /></Row>
+                        <Row className='book-row'><img className='book-icon' src={pages} alt='pages-icon' /></Row>
+                        <Row className='book-row'><img className='book-icon' src={genre} alt='genre-icon' /></Row>
+                    </Col>
 
-            <Card.Subtitle>
-                <img src={person} alt='person-icon' />
-                {props.author}
-            </Card.Subtitle>
-            <Card.Text>
-                <img src={genre} alt='genre-icon' />
-                {props.genre}
-            </Card.Text>
-            <Card.Text>
-                <img src={pages} alt='pages-icon' />
-                {props.pages}
-            </Card.Text>
+                    <Col className='book-col'>
+                        <Row className='book-row' className='book-text'><text>{props.title}</text></Row>
+                        <Row className='book-row' className='book-text'>{props.author}</Row>
+                        <Row className='book-row' className='book-text'>{props.pages}</Row>
+                        <Row className='book-row' className='book-text'>{props.genre}</Row>
+                    </Col>
+                </Row>
+
+            </Container>
         </Card>
     )
 };

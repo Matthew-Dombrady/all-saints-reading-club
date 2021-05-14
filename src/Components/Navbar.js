@@ -7,7 +7,7 @@ import SignUp from './SignUp';
 import Login from './Login';
 
 
-const MenuBar=() => {
+const MenuBar=(props) => {
 
     const [visible, setVisible] = useState(false);
     const [visible1, setVisible1] = useState(false);
@@ -49,7 +49,7 @@ const MenuBar=() => {
                             >
                             <Button variant="light" style={{marginLeft:'5px'}} onClick={setVisible}>Join the Club!</Button>
                     </OverlayTrigger>
-
+                    <h2>Hello, {props.name}!</h2>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
