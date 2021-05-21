@@ -95,7 +95,7 @@ const MainPage=(props) => {
             console.log("New prize:", newPrize);
 
             // Fetch student
-            fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-changePrize?userid=' + uid + '&prize=' + newPrize)
+            fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-changePrize?userid=' + uid + '&prize=' + newPrize)
             .then(response => console.log(response))
             .catch((error) => {
                 console.error('Error:', error.message);

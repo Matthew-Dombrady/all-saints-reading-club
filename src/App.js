@@ -44,7 +44,7 @@ function App() {
   useEffect(() => {
   
       // Fetch student
-      fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid)
+      fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid)
       .then(response => response.json())
       .then(student => gotStudent(student))
       .catch((error) => {
@@ -52,7 +52,7 @@ function App() {
       });
   
       // Fetch prizes
-      fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getPrizes')
+      fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-getPrizes')
       .then(response => response.json())
       .then(przs => gotPrizes(przs))
       .catch((error) => {
@@ -73,7 +73,7 @@ function App() {
 
       console.log("NEXT:", s.next_prize);
   
-      fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getPrize?id=' + s.next_prize)
+      fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-getPrize?id=' + s.next_prize)
       .then(response => response.json())
       .then(prize => gotPrize(prize))
       .catch((error) => {
@@ -81,7 +81,7 @@ function App() {
       });
   
       
-      fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getUserBooks?uid=' + uid)
+      fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-getUserBooks?uid=' + uid)
       .then(response => response.json())
       .then(bks => gotBooks(bks))
       .catch((error) => {
