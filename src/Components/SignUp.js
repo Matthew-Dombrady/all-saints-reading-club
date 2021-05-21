@@ -108,6 +108,7 @@ const SignUp=(props) => {
             <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>What grade are you in?</Form.Label>
                 <Form.Control as="select" placeholder='Choose from list' onChange={(e) => assignGrade(e.target.value)} >
+                    <option>Please select</option>
                     <option>JK</option>
                     <option>SK</option>
                     <option>1</option>
