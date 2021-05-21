@@ -184,7 +184,7 @@ const MainPage=(props) => {
                 <Container>
                     <Row className='row-1'>
                         <Card className='main-card'>
-                            <Card.Title className='title'>Your Progress</Card.Title>
+                            <Card.Title className='title'>Your Prizes</Card.Title>
                         </Card>
                     </Row>
                     <Row className='row-1'>
