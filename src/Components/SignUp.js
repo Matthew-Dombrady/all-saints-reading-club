@@ -63,11 +63,11 @@ const SignUp=(props) => {
 
     function assignGrade(g) {
         if (g === "JK") {
-            setGrade(-1);
+            setGrade("-1");
         }
 
         else if (g === "SK") {
-            setGrade(0);
+            setGrade("0");
         }
 
         else {
