@@ -3,7 +3,6 @@ import '../styles.css';
 import bookIcon from '../Assets/book.svg'
 import person from '../Assets/person.svg'
 import pages from '../Assets/pages.svg'
-import genre from '../Assets/genre.svg'
 
 import {Card, Container, Row, Col} from 'react-bootstrap';
 

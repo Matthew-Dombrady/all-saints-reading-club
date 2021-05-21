@@ -12,7 +12,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";  
 
 
@@ -29,7 +28,6 @@ function App() {
   const [prizes, setPrizes] = useState([]);
   const [numBooks, setNumBooks] = useState(-1);
   
-  const [visible, setVisible] = useState(false); 
 
 
   
