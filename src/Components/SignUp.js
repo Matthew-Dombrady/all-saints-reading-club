@@ -61,6 +61,20 @@ const SignUp=(props) => {
 
     }
 
+    function assignGrade(g) {
+        if (g === "JK") {
+            setGrade(-1);
+        }
+
+        else if (g === "SK") {
+            setGrade(0);
+        }
+
+        else {
+            setGrade(g);
+        }
+    }
+
     return (
         <Form>
             <Form.Group controlId="formBasicFirst">
@@ -93,7 +107,7 @@ const SignUp=(props) => {
 
             <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>What grade are you in?</Form.Label>
-                <Form.Control as="select" placeholder='Choose from list' onChange={(e) => setGrade(e.target.value)} >
+                <Form.Control as="select" placeholder='Choose from list' onChange={(e) => assignGrade(e.target.value)} >
                     <option>JK</option>
                     <option>SK</option>
                     <option>1</option>

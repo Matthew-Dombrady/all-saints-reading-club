@@ -110,8 +110,6 @@ const BookForm=(props) => {
             .catch((error) => {
                 console.error('Error:', error.message);
             });      
-
-            window.location.reload();
             
         }
 
