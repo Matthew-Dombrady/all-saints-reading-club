@@ -99,13 +99,13 @@ const BookForm=(props) => {
 
         else {
 
-            fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-createBook?userid=' + props.userid + '&title=' + title + '&author=' + author + '&pages=' + pages + '&q1=' + q1 + '&q2=' + q2 + '&q3=' + q3 + '&a1=' + a1 + '&a2=' + a2 + '&a3=' + a3)
+            fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-createBook?userid=' + props.userid + '&title=' + title + '&author=' + author + '&pages=' + pages + '&q1=' + q1 + '&q2=' + q2 + '&q3=' + q3 + '&a1=' + a1 + '&a2=' + a2 + '&a3=' + a3)
             .then(response => console.log("Created book?", response))
             .catch((error) => {
                 console.error('Error:', error.message);
             });      
 
-            fetch('https://all-saints-reading-club.netlify.app/all-saints-reading-club/us-central1/student-increaseBook?userid=' + props.userid + '&num=' + props.booksNum)
+            fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-increaseBook?userid=' + props.userid + '&num=' + props.booksNum)
             .then(response => console.log("Increased books?", response))
             .catch((error) => {
                 console.error('Error:', error.message);

@@ -1,7 +1,7 @@
 export async function getStudent(uid) {
     console.log("Getting student");
     // Fetch books
-    const response = await fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid);
+    const response = await fetch('localhost:5000/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid);
     const student = await response.json();
     return student;
 }

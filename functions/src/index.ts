@@ -5,9 +5,9 @@ import * as student from "./student";
 // // https://firebase.google.com/docs/functions/typescript
 //
 const helloWorld = functions.https.onCall((data, context) => {
-    console.log('its running');
-    return 'hello, ninjas';
+  console.log("its running");
+  return "hello, ninjas";
 });
 
-export = { student, helloWorld };
+export {student, helloWorld};
 
