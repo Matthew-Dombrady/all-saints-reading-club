@@ -13,18 +13,16 @@ const Book=(props) => {
         <Card className='book-card'> 
             <Container>
                 <Row>
-                    <Col>
+                    <Col className='icon-col'>
                         <Row className='book-row'><img className='book-icon' src={bookIcon} alt='book-icon' /></Row>
                         <Row className='book-row'><img className='book-icon' src={person} alt='person-icon' /></Row>
                         <Row className='book-row'><img className='book-icon' src={pages} alt='pages-icon' /></Row>
-                        <Row className='book-row'><img className='book-icon' src={genre} alt='genre-icon' /></Row>
                     </Col>
 
                     <Col className='book-col'>
                         <Row className='book-row' className='book-text'><text>{props.title}</text></Row>
                         <Row className='book-row' className='book-text'>{props.author}</Row>
                         <Row className='book-row' className='book-text'>{props.pages}</Row>
-                        <Row className='book-row' className='book-text'>{props.genre}</Row>
                     </Col>
                 </Row>
 

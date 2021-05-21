@@ -1,139 +1,228 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles.css'; 
 import Book from './Book'
 import Navbar from './Navbar';
+import BookForm from './BookForm';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";  
 
-import {Container, Row, Col, ProgressBar, Card, Button} from 'react-bootstrap';
+import {Container, Row, Col, ProgressBar, Card, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 
 import { firebaseApp } from '../firebase'
 import "firebase/auth";
 import { getStudent } from '../fetch';
 import { user } from 'firebase-functions/lib/providers/auth';
 
-const MainPage=() => {
+import logo from '../Assets/school_logo.png';
 
-    const [name, setName] = useState('');
-    const [grade, setGrade] = useState(0);
-    const [booksRead, setBooksRead] = useState(0);
-    const [prizeName, setPrizeName] = useState('');
-    const [prizeTarget, setPrizeTarget] = useState(0);
-    const [books, setBooks] = useState([]);
+const MainPage=(props) => {
 
+    const books = props.books;
+    const prizeTarget = props.prizeTarget;
+    const grade = props.grade;
+    const prizes = props.prizes;
+    const prizeName = props.prizeName;
+    const name = props.name;
+    const uid = props.uid;
 
-
-    const [lastBookTitle, setLastBookTitle] = useState('');
-    const [lastBookAuthor, setLastBookAuthor] = useState('');
-    const [lastBookPages, setLastBookPages] = useState('');
-    const [lastBookGenre, setLastBookGenre] = useState('');
-
+    const [disp1, setDisp1] = useState("");
+    const [disp2, setDisp2] = useState("");
 
 
-    firebaseApp.auth().onAuthStateChanged(function(user) {
-        if (user) {
+    const [visible, setVisible] = useState(false);
 
-            console.log("Getting student");
-            // Fetch books
-            fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getStudent?uid=' + user.uid)
-            .then(response => response.json())
-            .then(student => gotStudent(student))
+
+    useEffect(() => {
+
+        if (uid != "") {
+            setDisp1("content");
+            setDisp2("content-hide");
+        }
+
+        else {
+            setDisp1("content-hide");
+            setDisp2("content");
+        }
+
+        
+        if (books.length >= prizeTarget && books.length != 0 && prizeTarget != 0) {
+    
+          var newPrize = "";
+            
+          if (grade < 2) {
+    
+            switch (prizeName) {
+              case "Special Bookmark/Pencil":
+                newPrize = "Frosty";
+                break;
+              case "Frosty from Wendy's":
+                newPrize = "Book";
+                break;
+              case "Colouring book":
+                newPrize = "Bag";
+                break;
+              case "All Saints Draw String Bag":
+                newPrize = "Hat";
+                break;      
+              default:
+                newPrize = "Pencil";
+                break;
+            }
+    
+          }
+    
+          else {
+    
+            switch (prizeName) {
+              case "Frosty from Wendy's":
+                newPrize = "Bag";
+                break;
+              case "All Saints Draw String Bag":
+                newPrize = "Hat";
+                break;
+              default:
+                newPrize = "Frosty";
+                break;
+            }
+    
+          }
+    
+    
+            console.log("New prize:", newPrize);
+
+            // Fetch student
+            fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-changePrize?userid=' + uid + '&prize=' + newPrize)
+            .then(response => console.log(response))
             .catch((error) => {
                 console.error('Error:', error.message);
             });
 
-
-        } else {
-            console.log("Not logged in");
-        }
-    });
     
-    function gotStudent(s) {
-        setName(s.firstName);
-        setGrade(s.grade);
-        setBooksRead(s.books_read);
-        setBooks(s.books);
-
-        fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getPrize?id=' + s.next_prize)
-        .then(response => response.json())
-        .then(prize => gotPrize(prize))
-        .catch((error) => {
-            console.error('Error:', error.message);
-        });
-
-        
-        fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getBook?id=' + s.last_book)
-        .then(response => response.json())
-        .then(book => gotBook(book))
-        .catch((error) => {
-            console.error('Error:', error.message);
-        });
+        }
+    
+    }, 
+    [props]
+    );
 
 
-    }
+    function displayBooks() {
 
-    function gotBook(b) {
-        setLastBookTitle(b.Title);
-        setLastBookAuthor(b.Author);
-        setLastBookPages(b.Pages);
-        setLastBookGenre(b.Genre);
-    }
+        if (books.length > 0) {
 
-    function gotPrize(p) {
-        setPrizeName(p.name);
+            const bookList = books.map((b) =>
+                <Book title={b.title} author={b.author} pages={b.pages} />
+            );
 
-        if (grade < 2) {
-            setPrizeTarget(p.target1);
+            return bookList;
         }
 
-        else if (grade > 2) {
-            setPrizeTarget(p.target2);
+        else {
+            return <text style={{marginTop:'10px'}}>No books yet!</text>;
         }
+
     }
 
     function getProgress() {
-        var read = booksRead;
-        var target = prizeTarget;
-        var progress = read/target;
-        return progress*100;
+        return (books.length/prizeTarget)*100;
     }
 
-    function displayBooks() {
-        const bookList = books.map((book) => {
-            <Col>{book}</Col>
-        })
+    function getProgressText(p) {
+        if (p > 1) {
+            return p + " books to go!";
+        }
 
-        return bookList;
+        else if (p == 1) {
+            return p + " book to go!";
+        }
+
+        else {
+            return "You got it!"
+        }
     }
 
+    function getBars() {
+
+        var userPrizes = [];
+
+        prizes.forEach(p => {
+
+            if (grade < 2 && p.target1 > 0 && p.name != prizeName) {
+                userPrizes.push({name: p.name, target: p.target1});
+            }
+
+            else if (grade >=2 && p.target2 > 0 && p.name != prizeName) {
+                userPrizes.push({name: p.name, target: p.target2});
+            }
+
+        });
+
+        const bars = userPrizes.map((p) =>
+            <Col>
+                <text style={{fontWeight:'600'}}>{p.name}</text>
+                <br />
+                <text>{getProgressText(p.target - books.length)}</text>
+                <ProgressBar striped variant="info" now={(books.length/p.target)*100} style={{marginTop:'15px'}} />
+            </Col>
+        );
+
+        return bars;
+    }
+
+    function toggleVisible() {
+        setVisible(!visible);
+    }
 
           
     return (
+        <div>
+            <div className={disp1}>
+                <Navbar name={name} />
+                <Container>
+                    <Row className='row-1'>
+                        <Card className='main-card'>
+                            <Card.Title className='title'>Your Progress</Card.Title>
+                        </Card>
+                    </Row>
+                    <Row className='row-1'>
+                        <Container>
+                            <ProgressBar striped variant="success" now={getProgress()} />
+                            <text className='progress-text'>{prizeTarget-books.length} more book(s): </text><text className='prize-text'>{prizeName}!</text>
+                        </Container>
+                    </Row>
+                    <Row className='row-2'>
+                        {getBars()}
+                    </Row>
 
-        <div className='content'>
-            <Navbar name={name} />
-            <Container>
-                <Row className='row-1'>
-                    <Card className='main-card'>
-                        <Card.Title className='title'>My Progess</Card.Title>
-                    </Card>
-                </Row>
-                <Row className='row-1'>
-                    <Container>
-                        <ProgressBar striped variant="success" now={getProgress()} />
-                        <text>Next Prize: {prizeName}</text>
-                    </Container>
-                </Row>
-                <Row className='row-1'>
-                    <Button className='add-book' variant="success" >I READ <br /> A BOOK!</Button>
-                </Row>
-                <Row className='row-1'>
-                    <Card className='main-card'>
-                        <Card.Title className='title'>Books You've Read</Card.Title>
-                    </Card>
-                </Row>
-                <Row>
-                    {displayBooks()}
-                </Row>
-            </Container>
+                    <Row className='row-1'>
+                        <Link to="/newbook">
+                            <Button className='add-book' variant="success" onClick={toggleVisible}>I READ <br /> A BOOK!</Button>
+                        </Link>
+                    </Row>
+
+
+                    <Row className='row-1'>
+                        <Card className='main-card'>
+                            <Card.Title className='title'>Books You've Read</Card.Title>
+                        </Card>
+                    </Row>
+                    <Row>
+                        {displayBooks()}
+                    </Row>
+                </Container>
+            </div>
+
+            <div className={disp2}>
+                <Navbar name={name} />
+                <br />
+                <br />
+                <h2 className='welcome-text'>Welcome to the All Saints Summer Reading Club!<br/> <text style={{fontWeight: '300'}}>To get started, create a new account with your school email (or login if you already have an account).</text></h2>
+                <img src={logo} style={{width: '400px', marginLeft: '520px', marginTop: '50px'}} />
+            </div>
+
         </div>
     )
 };

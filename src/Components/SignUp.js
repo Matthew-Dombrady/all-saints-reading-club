@@ -47,6 +47,7 @@ const SignUp=(props) => {
                     }
 
                     hide();
+                    window.location.reload();
 
                 })
                 .catch((error) => {

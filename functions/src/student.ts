@@ -10,11 +10,22 @@ export const addStudent = functions.https.onRequest(async (request, response) =>
     const id = "" + request.query.uid;
     console.log("UID: " + id);
 
+    const grd = "" + request.query.grade;
+    var g = parseInt(grd);
+    var nextPrize;
+    if (g < 2) {
+      nextPrize = "Pencil";
+    }
+    else {
+      nextPrize = "Frosty";
+    }
+
     admin.firestore().collection("students").doc(id).set({
       firstName: request.query.firstName,
       lastName: request.query.lastName,
       grade: request.query.grade,
-      email: request.query.email,  
+      email: request.query.email,
+      next_prize: nextPrize,
     })
     .then(() => {
       console.log("Document successfully written!");
@@ -103,32 +114,138 @@ export const addStudent = functions.https.onRequest(async (request, response) =>
     response.set('Access-Control-Allow-Origin', '*');
 
     const uid = "" + request.query.uid;
-    const docRef = admin.firestore().collection("students").doc(uid).collection("student_books");
+    const docRef = admin.firestore().collection("students").doc(uid).collection("user_books");
 
 
+    const docs = await docRef.get();
 
-    docRef
-    .get()
-    .then((docs) => {
 
-      var studentBooks: { title: string; pages: string }[] = [];
+    var studentBooks: { title: string; author: string, pages: string }[] = [];
 
-      docs.forEach((d) => {
-        const title = d.data().title;
-        const pages = d.data().pages;
 
-        const obj = {
-          title,
-          pages
-        };
+    docs.forEach((d) => {
 
-        studentBooks.push(obj);
-      })
-      response.send([1,2,3]);
+      const title = d.data().title;
+      const author = d.data().author;
+      const pages = d.data().pages;
+
+      const obj = {
+        title,
+        author,
+        pages
+      };
+
+      studentBooks.push(obj);
     })
-    .catch((error) => {
-        console.log("Error getting prize:", error.message);
-    });
 
+
+    response.send(studentBooks);
 
   });  
+
+  export const createBook = functions.https.onRequest(async (request, response) => {
+
+    response.set('Access-Control-Allow-Origin', '*');
+
+    const userid = "" + request.query.userid;
+    const title = "" + request.query.title;
+
+    console.log("USER ID: " + userid);
+
+    const docRef = await admin.firestore().collection("students").doc(userid);
+
+    await docRef.collection("user_books").doc(title).set({
+      title: request.query.title,
+      author: request.query.author,
+      pages: request.query.pages,
+      q1: request.query.q1,
+      q2: request.query.q1,
+      q3: request.query.q1,
+      a1: request.query.a1,
+      a2: request.query.a2,
+      a3: request.query.a3,
+    });
+
+    response.send("Book added to user with id " + userid);
+
+  });  
+
+
+  export const getPrizes = functions.https.onRequest(async (request, response) => {
+
+    response.set('Access-Control-Allow-Origin', '*');
+
+    const docRef = admin.firestore().collection("prizes");
+
+    const docs = await docRef.get();
+
+    var prizes: { name: string; target1: string, target2: string }[] = [];
+
+
+    docs.forEach((d) => {
+
+      console.log("Doc: " + d.data());
+      const name = d.data().name;
+      const target1 = d.data().target1;
+      const target2 = d.data().target2;
+
+      const obj = {
+        name,
+        target1,
+        target2
+      };
+
+      prizes.push(obj);
+    })
+
+
+    response.send(prizes);
+
+  });  
+
+  export const increaseBooks = functions.https.onRequest(async (request, response) => {
+
+    response.set('Access-Control-Allow-Origin', '*');
+
+    const userid = "" + request.query.userid;
+    const prev = "" + request.query.num;
+
+    const prevNum = parseInt(prev);
+
+
+
+    admin.firestore().collection("students").doc(userid).update({
+      num_books: prevNum + 1,
+    })
+    .then(() => {
+      console.log("Document successfully updated!");
+      response.send("Success");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+
+  });  
+
+  export const changePrize = functions.https.onRequest(async (request, response) => {
+
+    response.set('Access-Control-Allow-Origin', '*');
+
+    const userid = "" + request.query.userid;
+
+    console.log("ID:" + userid);
+
+    admin.firestore().collection("students").doc(userid).update({
+      next_prize: request.query.prize,      
+    })
+    .then(() => {
+      console.log("Prize successfully updated!");
+      response.send("Success");
+    })
+    .catch((error) => {
+      response.send(error);
+    });
+
+  });  
+
+
