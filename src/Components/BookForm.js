@@ -76,7 +76,7 @@ const BookForm=(props) => {
     []
     );
 
-    const ok = () => {
+    const ok = (e) => {
 
         const lenA1 = a1.split('.');
         const lenA2 = a2.split('.');
@@ -87,6 +87,7 @@ const BookForm=(props) => {
 
         if (title == "" || author == "" || pages == -1) {
             alert("Please make sure you filled in all information!");
+            e.preventDefault();
         }
 
         else if (lenA1.length < min || lenA2.length < min || lenA3.length < min) {
