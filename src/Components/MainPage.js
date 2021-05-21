@@ -95,7 +95,7 @@ const MainPage=(props) => {
             console.log("New prize:", newPrize);
 
             // Fetch student
-            fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-changePrize?userid=' + uid + '&prize=' + newPrize)
+            fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-changePrize?userid=' + uid + '&prize=' + newPrize)
             .then(response => console.log(response))
             .catch((error) => {
                 console.error('Error:', error.message);

@@ -38,7 +38,7 @@ const SignUp=(props) => {
                     console.log(userCredential);
 
                     const Http = new XMLHttpRequest();
-                    const url='https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-addStudent?uid=' + userCredential.user.uid + '&firstName=' + first + '&lastName=' + last + '&grade=' + grade + '&email=' + email;
+                    const url='https://us-central1-all-saints-reading-club.cloudfunctions.net/student-addStudent?uid=' + userCredential.user.uid + '&firstName=' + first + '&lastName=' + last + '&grade=' + grade + '&email=' + email;
                     Http.open("GET", url);
                     Http.send();
 
