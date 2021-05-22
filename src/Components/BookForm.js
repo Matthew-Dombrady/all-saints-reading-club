@@ -59,17 +59,24 @@ const BookForm=(props) => {
 
     useEffect(() => {
 
-        if (props.grade < 2) {
+        if (props.grade < 2 && grade > 0) {
             setPickQuestions(questions1);
             setMin(2);
+            setMinPages(props.grade*10);
+        }
+
+        else if (props.grade == -1 || props.grade == 0) {
+            setPickQuestions(questions2);
+            setMin(2);
+            setMinPages(0);
         }
 
         else {
             setPickQuestions(questions2);
             setMin(5);
+            setMinPages(props.grade*10);
         }
 
-        setMinPages(props.grade*10);
         console.log(props.userid);
 
     },

@@ -105,7 +105,7 @@ const MainPage=(props) => {
         }
     
     }, 
-    [props]
+    []
     );
 
 
