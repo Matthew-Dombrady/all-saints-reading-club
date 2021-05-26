@@ -239,6 +239,9 @@ const MainPage=(props) => {
         setVisible(!visible);
     }
 
+    function refresh() {
+        window.location.reload();
+    }
           
     return (
         <div>
@@ -261,7 +264,7 @@ const MainPage=(props) => {
                     </Row>
 
                     <Row className='row-3'>
-                        <Button onClick={}>Click Here</Button>
+                        <Button onClick={refresh()}>Click Here</Button>
                     </Row>
 
                     <Row className='row-1'>
