@@ -65,7 +65,7 @@ const BookForm=(props) => {
             setMinPages(props.grade*10);
         }
 
-        else if (props.grade == -1 || props.grade == 0) {
+        else if (props.grade <= 0) {
             setPickQuestions(questions2);
             setMin(2);
             setMinPages(0);
@@ -99,10 +99,12 @@ const BookForm=(props) => {
 
         else if (lenA1.length < min || lenA2.length < min || lenA3.length < min) {
             alert("Please make sure your answers are at least " + min + " sentences!");
+            e.preventDefault();
         }
 
         else if (pages < Math.abs(minPages)) {
             alert("Please make sure your book is at least " + Math.abs(minPages) + " long!");
+            e.preventDefault();
         }
 
         else {

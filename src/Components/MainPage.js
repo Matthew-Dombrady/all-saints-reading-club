@@ -21,14 +21,16 @@ import logo from '../Assets/school_logo.png';
 
 const MainPage=(props) => {
 
-    const books = props.books;
-    const prizeTarget = props.prizeTarget;
-    const grade = props.grade;
-    const prizes = props.prizes;
-    const prizeName = props.prizeName;
-    const name = props.name;
-    const uid = props.uid;
+    const [uid, setUid] = useState('');
 
+    const [name, setName] = useState('');
+    const [grade, setGrade] = useState(-2);
+    const [prizeName, setPrizeName] = useState('');
+    const [prizeTarget, setPrizeTarget] = useState(0);
+    
+    const [books, setBooks] = useState([]);
+    const [prizes, setPrizes] = useState([]);
+  
     const [disp1, setDisp1] = useState("");
     const [disp2, setDisp2] = useState("");
 
@@ -103,11 +105,73 @@ const MainPage=(props) => {
 
     
         }
+
+            // Fetch student
+            fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getStudent?uid=' + uid)
+            .then(response => response.json())
+            .then(student => gotStudent(student))
+            .catch((error) => {
+                console.error('Error:', error.message);
+            });
+        
+            // Fetch prizes
+            fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getPrizes')
+            .then(response => response.json())
+            .then(przs => gotPrizes(przs))
+            .catch((error) => {
+                console.error('Error:', error.message);
+            });
+
     
     }, 
     [props]
     );
 
+    function gotStudent(s) {
+
+        setName(s.firstName);
+        setGrade(s.grade);
+        setNumBooks(s.num_books);
+  
+        console.log("NEXT:", s.next_prize);
+    
+        fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getPrize?id=' + s.next_prize)
+        .then(response => response.json())
+        .then(prize => gotPrize(prize))
+        .catch((error) => {
+            console.error('Error:', error.message);
+        });
+    
+        
+        fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getUserBooks?uid=' + uid)
+        .then(response => response.json())
+        .then(bks => gotBooks(bks))
+        .catch((error) => {
+            console.error('Error:', error.message);
+        });
+    }
+    
+    function gotBooks(b) {
+        setBooks(b);
+    }
+    
+    function gotPrizes(p) {
+        setPrizes(p);
+    }
+    
+    function gotPrize(p) {
+        setPrizeName(p.name);
+        console.log("P", p);
+    
+        if (grade < 2 && grade > -2) {
+            setPrizeTarget(p.target1);
+        }
+    
+        else if (grade >= 2) {
+            setPrizeTarget(p.target2);
+        } 
+    }
+  
 
     function displayBooks() {
 
@@ -195,6 +259,10 @@ const MainPage=(props) => {
                     </Row>
                     <Row className='row-2'>
                         {getBars()}
+                    </Row>
+
+                    <Row className='row-3'>
+                        <Button onClick={window.location.reload()}>Click Here</Button>
                     </Row>
 
                     <Row className='row-1'>
