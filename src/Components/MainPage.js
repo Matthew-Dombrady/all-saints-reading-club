@@ -131,7 +131,6 @@ const MainPage=(props) => {
 
         setName(s.firstName);
         setGrade(s.grade);
-        setNumBooks(s.num_books);
   
         console.log("NEXT:", s.next_prize);
     
