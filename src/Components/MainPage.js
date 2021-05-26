@@ -264,7 +264,7 @@ const MainPage=(props) => {
                     </Row>
 
                     <Row className='row-3'>
-                        <Button onClick={refresh()}>Click Here</Button>
+                        <Button>Click Here</Button>
                     </Row>
 
                     <Row className='row-1'>
