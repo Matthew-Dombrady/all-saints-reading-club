@@ -261,7 +261,7 @@ const MainPage=(props) => {
                     </Row>
 
                     <Row className='row-3'>
-                        <Button onClick={window.location.reload()}>Click Here</Button>
+                        <Button onClick={}>Click Here</Button>
                     </Row>
 
                     <Row className='row-1'>
