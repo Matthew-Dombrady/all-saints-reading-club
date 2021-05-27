@@ -207,7 +207,7 @@ const MainPage=(props) => {
                             <Button className='add-book' variant="success" onClick={toggleVisible}>I READ <br /> A BOOK!</Button>
                         </Link>
 
-                        <img src={gift} onClick={(e) => refresh(e)}/>
+                        <Button><img style={{width:'150px', height:'150px', marginLeft:'15px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
                     </Row>
 
 
