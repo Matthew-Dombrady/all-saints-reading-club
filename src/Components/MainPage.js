@@ -18,6 +18,7 @@ import { getStudent } from '../fetch';
 import { user } from 'firebase-functions/lib/providers/auth';
 
 import logo from '../Assets/school_logo.png';
+import gift from '../Assets/gift.png';
 
 const MainPage=(props) => {
 
@@ -201,14 +202,12 @@ const MainPage=(props) => {
                         {getBars()}
                     </Row>
 
-                    <Row className='row-3'>
-                        <Button onClick={(e) => refresh(e)}>Click Here</Button>
-                    </Row>
-
                     <Row className='row-1'>
                         <Link to="/newbook">
                             <Button className='add-book' variant="success" onClick={toggleVisible}>I READ <br /> A BOOK!</Button>
                         </Link>
+
+                        <img src={gift} onClick={(e) => refresh(e)}/>
                     </Row>
 
 
