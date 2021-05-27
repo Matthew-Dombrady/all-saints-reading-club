@@ -207,7 +207,10 @@ const MainPage=(props) => {
                             <Button className='add-book' variant="success" onClick={toggleVisible}>I READ <br /> A BOOK!</Button>
                         </Link>
 
-                        <Button style={{backgroundColor:'transparent', marginLeft:'15px'}}><img style={{width:'85px', height:'85px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
+                        <div>
+                            <Button style={{backgroundColor:'transparent', border:'none', marginLeft:'15px'}}><img style={{width:'100px', height:'100px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
+                            <text>Click me to update prizes!</text>
+                        </div>
                     </Row>
 
 
