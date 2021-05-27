@@ -26,7 +26,6 @@ function App() {
   
   const [books, setBooks] = useState([]);
   const [prizes, setPrizes] = useState([]);
-  const [numBooks, setNumBooks] = useState(-1);
   
 
 
@@ -44,7 +43,7 @@ function App() {
   useEffect(() => {
   
       // Fetch student
-      fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid)
+      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid)
       .then(response => response.json())
       .then(student => gotStudent(student))
       .catch((error) => {
@@ -52,7 +51,7 @@ function App() {
       });
   
       // Fetch prizes
-      fetch('http://localhost:5000/all-saints-reading-club/us-central1/student-getPrizes')
+      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-getPrizes')
       .then(response => response.json())
       .then(przs => gotPrizes(przs))
       .catch((error) => {
@@ -61,7 +60,7 @@ function App() {
       
   
   },
-  [uid, grade, numBooks]
+  [uid, grade]
   );
   
   
