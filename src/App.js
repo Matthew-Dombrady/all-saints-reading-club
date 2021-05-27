@@ -68,7 +68,6 @@ function App() {
 
       setName(s.firstName);
       setGrade(s.grade);
-      setNumBooks(s.num_books);
 
       console.log("NEXT:", s.next_prize);
   
@@ -115,7 +114,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/newbook">
-            <BookForm grade={grade} userid={uid} numBooks={numBooks} />
+            <BookForm grade={grade} userid={uid} />
           </Route>
 
           <Route path="/">
