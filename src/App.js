@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {
   
       // Fetch student
-      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-getStudent?uid=' + uid)
+      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getStudent?uid=' + uid)
       .then(response => response.json())
       .then(student => gotStudent(student))
       .catch((error) => {
@@ -51,7 +51,7 @@ function App() {
       });
   
       // Fetch prizes
-      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-getPrizes')
+      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getPrizes')
       .then(response => response.json())
       .then(przs => gotPrizes(przs))
       .catch((error) => {
@@ -71,7 +71,7 @@ function App() {
 
       console.log("NEXT:", s.next_prize);
   
-      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-getPrize?id=' + s.next_prize)
+      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getPrize?id=' + s.next_prize)
       .then(response => response.json())
       .then(prize => gotPrize(prize))
       .catch((error) => {
@@ -79,7 +79,7 @@ function App() {
       });
   
       
-      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/all-saints-reading-club/us-central1/student-getUserBooks?uid=' + uid)
+      fetch('https://us-central1-all-saints-reading-club.cloudfunctions.net/student-getUserBooks?uid=' + uid)
       .then(response => response.json())
       .then(bks => gotBooks(bks))
       .catch((error) => {
