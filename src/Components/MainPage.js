@@ -209,6 +209,7 @@ const MainPage=(props) => {
 
                         <div>
                             <Button style={{backgroundColor:'transparent', border:'none', marginLeft:'15px'}}><img style={{width:'100px', height:'100px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
+                            <br />
                             <text>Click me to update prizes!</text>
                         </div>
                     </Row>
