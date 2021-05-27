@@ -19,6 +19,7 @@ import { user } from 'firebase-functions/lib/providers/auth';
 
 import logo from '../Assets/school_logo.png';
 import gift from '../Assets/gift.png';
+import vacation from '../Assets/vacation.png'
 
 const MainPage=(props) => {
 
@@ -210,7 +211,7 @@ const MainPage=(props) => {
                         <div>
                             <Button style={{backgroundColor:'transparent', border:'none', marginLeft:'65px'}}><img style={{width:'95px', height:'95px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
                             <br />
-                            <text style={{marginLeft:'40px'}}>Click me to update prizes!</text>
+                            <text style={{marginLeft:'35px'}}>Click me to update prizes!</text>
                         </div>
                     </Row>
 
@@ -231,7 +232,8 @@ const MainPage=(props) => {
                 <br />
                 <br />
                 <h2 className='welcome-text'>Welcome to the All Saints Summer Reading Club!<br/> <text style={{fontWeight: '300'}}>To get started, create a new account with your school email (or login if you already have an account).</text></h2>
-                <img src={logo} style={{width: '400px', marginLeft: '30vw', marginTop: '50px'}} />
+                <img src={logo} style={{width: '250px', marginLeft: '41.5vw', marginTop: '50px'}} />
+                <img src={vacation} style={{marginLeft:'120px'}} />
             </div>
 
         </div>
