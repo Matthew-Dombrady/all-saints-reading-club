@@ -176,6 +176,10 @@ const MainPage=(props) => {
         setVisible(!visible);
     }
 
+    const refresh = (e) => {
+        window.location.reload();
+    }
+
           
     return (
         <div>
@@ -195,6 +199,10 @@ const MainPage=(props) => {
                     </Row>
                     <Row className='row-2'>
                         {getBars()}
+                    </Row>
+
+                    <Row className='row-3'>
+                        <Button onClick={(e) => refresh(e)}>Click Here</Button>
                     </Row>
 
                     <Row className='row-1'>
