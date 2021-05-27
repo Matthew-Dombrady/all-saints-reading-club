@@ -208,9 +208,9 @@ const MainPage=(props) => {
                         </Link>
 
                         <div>
-                            <Button style={{backgroundColor:'transparent', border:'none', marginLeft:'30px'}}><img style={{width:'95px', height:'95px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
+                            <Button style={{backgroundColor:'transparent', border:'none', marginLeft:'55px'}}><img style={{width:'95px', height:'95px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
                             <br />
-                            <text style={{marginLeft:'20px'}}>Click me to update prizes!</text>
+                            <text style={{marginLeft:'40px'}}>Click me to update prizes!</text>
                         </div>
                     </Row>
 
