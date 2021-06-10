@@ -28,7 +28,7 @@ const MenuBar=(props) => {
 
     return (
 
-        <Navbar bg="light" expand="lg" style={{width:'100vw'}}>
+        <Navbar bg="light" style={{width:'100vw'}}>
             <Navbar.Brand href="#home"><img src={logo} className='logo' /></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -39,14 +39,14 @@ const MenuBar=(props) => {
                             show={visible1}
                             overlay={
                                 <Popover id={`popover-positioned-bottom`}>
-                                <Popover.Title as="h3">Login </Popover.Title>
+                                <Popover.Title as="h3">Login</Popover.Title>
                                 <Popover.Content>
                                     <Login toggleVisible={setVisible1} />
                                 </Popover.Content>
                                 </Popover>
                             }
                             >
-                            <Button variant="primary" onClick={setVisible1}>Login</Button>
+                            <Button variant="primary" className='login' onClick={setVisible1}>Login to Your Account</Button>
                     </OverlayTrigger>
 
                     <OverlayTrigger
@@ -61,9 +61,9 @@ const MenuBar=(props) => {
                                 </Popover>
                             }
                             >
-                            <Button variant="light" style={{marginLeft:'5px'}} onClick={setVisible}>Join the Club!</Button>
+                            <Button variant="light" className='join-club' onClick={setVisible}>Join the Club!</Button>
                     </OverlayTrigger>
-                    <h2 style={{marginLeft:'825px', marginTop:'5px', fontSize:'30px'}}>{displayName(props.name)}</h2>
+                    <h2 style={{marginLeft:'825px', marginTop:'5px', fontSize:'30px'}} className='name'>{displayName(props.name)}</h2>
 
                     <OverlayTrigger
                             placement="bottom"
@@ -77,7 +77,7 @@ const MenuBar=(props) => {
                                 </Popover>
                             }
                             >
-                        <Button variant="light" style={{width: "80px", height: "40px", marginLeft: "5px", marginTop: "5px"}} onClick={setVisible2}>Logout</Button>
+                        <Button className='logout' variant="light" onClick={setVisible2}>Logout</Button>
                     </OverlayTrigger>
 
                 </Nav>

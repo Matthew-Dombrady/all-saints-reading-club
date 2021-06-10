@@ -20,6 +20,7 @@ import { user } from 'firebase-functions/lib/providers/auth';
 import logo from '../Assets/school_logo.png';
 import gift from '../Assets/gift.png';
 import vacation from '../Assets/vacation.png'
+import { _refWithOptions } from 'firebase-functions/lib/providers/database';
 
 const MainPage=(props) => {
 
@@ -37,8 +38,16 @@ const MainPage=(props) => {
 
     const [visible, setVisible] = useState(false);
 
+    const reload = props;
+
 
     useEffect(() => {
+
+        console.log("Props", props);
+
+        if (reload == true) {
+            window.location.reload();
+        }
 
         if (uid != "") {
             setDisp1("content");
@@ -152,22 +161,34 @@ const MainPage=(props) => {
 
         prizes.forEach(p => {
 
-            if (grade < 2 && p.target1 > 0 && p.name != prizeName) {
+            if (grade < 2 && p.target1 > 0) {
                 userPrizes.push({name: p.name, target: p.target1});
             }
 
-            else if (grade >=2 && p.target2 > 0 && p.name != prizeName) {
+            else if (grade >=2 && p.target2 > 0) {
                 userPrizes.push({name: p.name, target: p.target2});
+            }
+
+            for (let i = 0; i < userPrizes.length; i++) {
+                for (let j = 0; j < userPrizes.length; j++) {
+                    
+                    if (userPrizes[i].target < userPrizes[j].target) {
+                        let temp = userPrizes[i];
+                        userPrizes[i] = userPrizes[j];
+                        userPrizes[j] = temp;
+                    }
+                    
+                }
             }
 
         });
 
         const bars = userPrizes.map((p) =>
-            <Col>
+            <Col className='bar' style={{marginTop:'50px'}}>
                 <text style={{fontWeight:'600'}}>{p.name}</text>
                 <br />
                 <text>{getProgressText(p.target - books.length)}</text>
-                <ProgressBar striped variant="info" now={(books.length/p.target)*100} style={{marginTop:'15px'}} />
+                <ProgressBar striped variant="success" now={(books.length/p.target)*100} style={{marginTop:'15px'}} />
             </Col>
         );
 
@@ -188,31 +209,21 @@ const MainPage=(props) => {
             <div className={disp1}>
                 <Navbar name={name} />
                 <Container>
-                    <Row className='row-1'>
+                    <Row className='row-1' style={{marginBottom:'-50px'}}>
                         <Card className='main-card'>
-                            <Card.Title className='title'>Your Progress</Card.Title>
+                            <Card.Title className='title'>Your Progress <Button className='refresh' onClick={(e) => refresh(e)}>Refresh</Button> </Card.Title>
                         </Card>
                     </Row>
-                    <Row className='row-1'>
-                        <Container>
-                            <ProgressBar striped variant="success" now={getProgress()} />
-                            <text className='progress-text'>{prizeTarget-books.length} more book(s): </text><text className='prize-text'>{prizeName}!</text>
-                        </Container>
-                    </Row>
                     <Row className='row-2'>
-                        {getBars()}
+                        <Container>
+                            {getBars()}
+                        </Container>
                     </Row>
 
                     <Row className='row-1'>
                         <Link to="/newbook">
-                            <Button className='add-book' variant="success" onClick={toggleVisible}>I READ <br /> A BOOK!</Button>
+                            <Button className='add-book' variant="info" onClick={toggleVisible}>I READ <br /> A BOOK!</Button>
                         </Link>
-
-                        <div>
-                            <Button style={{backgroundColor:'transparent', border:'none', marginLeft:'150px'}}><img style={{width:'95px', height:'95px'}} src={gift} onClick={(e) => refresh(e)}/></Button>
-                            <br />
-                            <text style={{marginLeft:'35px'}}>Click me to update prizes after answering questions!</text>
-                        </div>
                     </Row>
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useRef } from 'react';
 import '../styles.css'; 
 
 import {Form, Button, Dropdown, Container} from 'react-bootstrap';
@@ -34,6 +34,11 @@ const BookForm=(props) => {
     const [min, setMin] = useState(-1);
     const [minPages, setMinPages] = useState(-1);
 
+    const [upload, setUpload] = useState(false);
+
+
+    const inputFile = useRef(null);
+
 
     const questions1 = [
         "Who was your favourite character and why?",
@@ -56,6 +61,19 @@ const BookForm=(props) => {
         "Have you read other books by the same author? If so how does this book compare. If not, does this book inspire you to read others?"
     ];
 
+    const questions3 = [
+        "How did you experience the book? Were you engaged immediately or did it take you a while to 'get into it'?",
+        "How did you feel reading it—amused, sad, disturbed, confused, bored...?",
+        "Are the main characters dynamic—changing or maturing by the end of the book?",
+        "Is the plot engaging—do you find the story interesting?",
+        "Is this a plot-driven book—a fast-paced page-turner or does the plot unfold slowly with a focus on character?",
+        "Were you surprised by complications, twists and turns?",
+        "Did you find the plot predictable, even formulaic?",
+        "If you could ask the author a question, what would you ask?",
+        "Have you read other books by the same author? If so how does this book compare. If not, does this book inspire you to read others?"
+    ];
+
+
 
     useEffect(() => {
 
@@ -65,11 +83,18 @@ const BookForm=(props) => {
             setMinPages(0);
         }
 
-        else {
+        else if (props.grade == 1 || props.grade == 2 || props.grade == 3) {
             setPickQuestions(questions2);
             setMin(5);
             setMinPages(props.grade*10);
         }
+
+        else if (props.grade == 4 || props.grade == 5 || props.grade == 6 || props.grade == 7 || props.grade == 8) {
+            setPickQuestions(questions3);
+            setMin(5);
+            setMinPages(props.grade*10);
+        }
+
 
         console.log(props.userid);
 
@@ -79,9 +104,9 @@ const BookForm=(props) => {
 
     const ok = (e) => {
 
-        const lenA1 = a1.split('.');
-        const lenA2 = a2.split('.');
-        const lenA3 = a3.split('.');
+        const lenA1 = a1.split(/[!,.]+/);
+        const lenA2 = a2.split(/[!,.]+/);
+        const lenA3 = a3.split(/[!,.]+/);
 
 
         console.log("Num", props.numBooks);
@@ -116,8 +141,6 @@ const BookForm=(props) => {
             });      
             
         }
-
-
 
     }
 
@@ -232,18 +255,17 @@ const BookForm=(props) => {
 
             setPickQuestions(newQuestions);
 
-        }    
+        }
 
     }
 
     function getMinSentences() {
-        return "Minimum of " + min + " sentences. NO maximum!";
+        return "Minimum of " + min + " sentences. NO maximum! Make sure to use proper punctuation (periods, commas, exclamation marks).";
     }
 
     function getPagePlaceholder() {
         return "At least " + Math.abs(minPages) + " pages";
     }
-
 
     return (
         <div>
@@ -309,7 +331,19 @@ const BookForm=(props) => {
                         <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta3(e.target.value)} />
                     </Form.Group>
 
-                    <Link to ='/'>
+                    <h3 className='drawing-text'>You can add a picture or drawing here!</h3>
+                    <br />
+
+                    <input type='file' id='file' ref={inputFile} accept="image/png, image/jpeg" style={{marginBottom:'50px'}} />
+                    <br />
+
+
+                    <Link to ={{
+                        pathname:'/',
+                        props: {
+                            reload:true
+                        }
+                    }}>
                         <Button variant="primary" type="button" onClick={ok} className='form-button'>Done!</Button>
                     </Link>
 

@@ -5,6 +5,7 @@ import './Components/MainPage'
 
 import MainPage from './Components/MainPage';
 import BookForm from './Components/BookForm';
+import BookConfirmation from './Components/BookConfirmation';
 
 import { firebaseApp } from './firebase';
 
@@ -113,13 +114,21 @@ function App() {
     <div>
       <Router>
         <Switch>
+
           <Route path="/newbook">
             <BookForm grade={grade} userid={uid} />
           </Route>
 
+          <Route path="/confirm">
+            <BookConfirmation />
+          </Route>
+
+
           <Route path="/">
             <MainPage name={name} grade={grade} prizes={prizes} prizeTarget={prizeTarget} prizeName={prizeName} books={books} uid={uid} />
           </Route>
+
+
         </Switch>
       </Router>
     </div>

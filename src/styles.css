@@ -81,3 +81,59 @@
 .logo {
     width: 50px;
 }
+.refresh {
+    margin-left: 10px;
+}
+.join-club {
+    margin-left: 5px;
+}
+.login{
+    height: 45px;
+    margin-top: 20px;
+}
+.logout {
+    width: 80px;
+    height: 40px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+.drawing-text {
+    margin-top: 50px;
+    margin-bottom: -5px;
+}
+
+@media screen and (max-width: 800px) {
+    .title {
+        margin-left: 15px;
+        font-size: 25px;
+    }
+    .refresh {
+        margin-left: 7.5px;
+    }
+    .add-book {
+        margin-left: 25px;
+    }
+    .login{
+        height: 35px;
+    }
+    .join-club {
+        margin-left: -155px;
+        margin-top: 62.5px;
+        height: 35px;
+    }
+    .name {
+        display: none;
+    }
+    .logout {
+        margin-left: -105px;
+        margin-top: 105px;
+    }
+    .bar {
+        margin-left: -15px;
+    }
+    .drawing-text {
+        font-size: 15px;
+    }
+
+}
+  
