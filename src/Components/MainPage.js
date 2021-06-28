@@ -30,6 +30,7 @@ const MainPage=(props) => {
     const prizes = props.prizes;
     const prizeName = props.prizeName;
     const name = props.name;
+    const last = props.last;
     const uid = props.uid;
 
     const [disp1, setDisp1] = useState("");
@@ -114,6 +115,24 @@ const MainPage=(props) => {
 
     
         }
+
+        if ((props.grade <= 2 && props.books.length == 60) || ((props.grade == 3 || props.grade == 4) && props.books.length == 20) || (props.grade >= 5 && props.books.length == 15)) {
+            console.log("SEND EMAIL");
+            window.emailjs.send(
+                'service_jir009y', 'template_5ji0ofa',
+                {
+                    student_name: name + " "  + last,
+                    message: name + " "  + last + " in grade " + grade + " has read " + books.length + " books and earned every prize!"
+                }
+
+                ).then(res => {
+                  console.log('Email successfully sent!')
+                })
+                // Handle errors here however you like, or use a React error boundary
+                .catch(err => console.error('Oh well, you failed. Here some thoughts on the error that occured:', err))
+          
+        }
+    
     
     }, 
     [props]
@@ -161,12 +180,17 @@ const MainPage=(props) => {
 
         prizes.forEach(p => {
 
-            if (grade < 2 && p.target1 > 0) {
+            if (grade <= 2) {
                 userPrizes.push({name: p.name, target: p.target1});
             }
 
-            else if (grade >=2 && p.target2 > 0) {
+            else if (grade == 3 || grade == 4 ) {
                 userPrizes.push({name: p.name, target: p.target2});
+            }
+
+            else if (grade >= 5) {
+                console.log("TARGET:", p);
+                userPrizes.push({name: p.name, target: p.target3});
             }
 
             for (let i = 0; i < userPrizes.length; i++) {
@@ -211,7 +235,7 @@ const MainPage=(props) => {
                 <Container>
                     <Row className='row-1' style={{marginBottom:'-50px'}}>
                         <Card className='main-card'>
-                            <Card.Title className='title'>Your Progress <Button className='refresh' onClick={(e) => refresh(e)}>Refresh</Button> </Card.Title>
+                            <Card.Title className='title'>Your Progress <Button className='refresh' onClick={(e) => refresh(e)}>Refresh</Button></Card.Title>
                         </Card>
                     </Row>
                     <Row className='row-2'>

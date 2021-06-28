@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer, useRef } from 'react';
 import '../styles.css'; 
 
-import {Form, Button, Dropdown, Container} from 'react-bootstrap';
+import {Form, Button, Dropdown, Container, Tab, Tabs} from 'react-bootstrap';
 
 import "firebase/auth";
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
@@ -36,29 +36,36 @@ const BookForm=(props) => {
 
     const [upload, setUpload] = useState(false);
 
+    const [drawing, setDrawing] = useState(false);
+
+
 
     const inputFile = useRef(null);
 
 
     const questions1 = [
-        "Who was your favourite character and why?",
-        "What did the story remind you of?",
-        "Was the book fiction or non-fiction?",
-        "How did the book make you feel? (happy, sad, scared)",
-        "Who read the book?",
-        "Would you read the book again?"
+        "Who was your favourite character?",
+        "What did you like about this character?",
+        "Can you retell the story in your own words?",
+        "Where does the story take place?",
+        "Is there anything you would change in the story? Why or why not?",
+        "What is one fact you learned from reading this book?",
+        "Draw and upload a picture of something you learned. Label the picture with a title or caption."
     ];
 
     const questions2 = [
-        "How did you experience the book? Were you engaged immediately or did it take you a while to 'get into it'?",
-        "How did you feel reading it—amused, sad, disturbed, confused, bored...?",
-        "Are the main characters dynamic—changing or maturing by the end of the book?",
-        "Is the plot engaging—do you find the story interesting?",
-        "Is this a plot-driven book—a fast-paced page-turner or does the plot unfold slowly with a focus on character?",
-        "Were you surprised by complications, twists and turns?",
-        "Did you find the plot predictable, even formulaic?",
-        "If you could ask the author a question, what would you ask?",
-        "Have you read other books by the same author? If so how does this book compare. If not, does this book inspire you to read others?"
+        "If you could invite any character over to your house which one would it be? Why?",
+        "Is your book fiction or nonfiction? How do you know? List two clues.",
+        "Which character in the story can you relate to? How are they like you? How are they different?",
+        "Re-write the ending of the story. What is different about your ending?",
+        "Would you read another book by the same author? Why?",
+        "What three facts did you learn from this text? Did anything surprise or shock you?",
+        "Of the information that you learned about, which would you like to share with someone else?",
+        "What kind of research did the author need in order to write this book?",
+        "Is this book similar to any other books you have read? If so, how are they alike? How are they different?",
+        "How can you learn more about this topic?",
+        "What else would you like to learn about this topic?",
+        "Draw and upload a brand-new cover for the book. Include a title."
     ];
 
     const questions3 = [
@@ -70,26 +77,32 @@ const BookForm=(props) => {
         "Were you surprised by complications, twists and turns?",
         "Did you find the plot predictable, even formulaic?",
         "If you could ask the author a question, what would you ask?",
-        "Have you read other books by the same author? If so how does this book compare. If not, does this book inspire you to read others?"
+        "Have you read other books by the same author? If so how does this book compare. If not, does this book inspire you to read others?",
+        "What are five facts you learned from this text?",
+        "What kind of research did the author need in order to write this book?",
+        "What is it about this topic that interests you?",
+        "What did you already know about this topic before you started reading the book?",
+        "If you could ask the author a question, what would it be?",
+        "Did the book make you consider future jobs that you could have? What are they?"
     ];
 
 
 
     useEffect(() => {
 
-        if (props.grade <= 0) {
+        if (props.grade <= 2) {
             setPickQuestions(questions1);
             setMin(2);
             setMinPages(0);
         }
 
-        else if (props.grade == 1 || props.grade == 2 || props.grade == 3) {
+        else if (props.grade == 3 || props.grade == 4) {
             setPickQuestions(questions2);
             setMin(5);
             setMinPages(props.grade*10);
         }
 
-        else if (props.grade == 4 || props.grade == 5 || props.grade == 6 || props.grade == 7 || props.grade == 8) {
+        else if (props.grade == 5 || props.grade == 6 || props.grade == 7 || props.grade == 8) {
             setPickQuestions(questions3);
             setMin(5);
             setMinPages(props.grade*10);
@@ -116,8 +129,13 @@ const BookForm=(props) => {
             e.preventDefault();
         }
 
-        else if (lenA1.length < min || lenA2.length < min || lenA3.length < min) {
+        else if (props.grade > !drawing && (lenA1.length < min || lenA2.length < min || lenA3.length < min)) {
             alert("Please make sure your answers are at least " + min + " sentences!");
+            e.preventDefault();
+        }
+
+        else if (props.grade <=0 && !drawing && (lenA1.length < min || lenA2.length < min || lenA3.length < min)) {
+            alert("Please make sure your answers are at least " + min + " sentences or draw a picture instead!");
             e.preventDefault();
         }
 
@@ -267,6 +285,119 @@ const BookForm=(props) => {
         return "At least " + Math.abs(minPages) + " pages";
     }
 
+    function getPictureOrQuestions() {
+
+        console.log("GRADE", props.grade);
+
+        if (props.grade <= 0) {
+            return  <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+            <Tab eventKey="questions" title="Answer 3 Questions" onClick={() => {setDrawing(false)}}>
+                    <Form.Group style={{marginTop:'25px'}}>
+                    <Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                                {q1}
+                            </Dropdown.Toggle>
+    
+                            <Dropdown.Menu>
+                                {getQuestions(1)}
+                            </Dropdown.Menu>
+                        </Dropdown>  
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta1(e.target.value)} />
+                    </Form.Group>
+    
+                    <Form.Group>
+                    <Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                {q2}
+                            </Dropdown.Toggle>
+    
+                            <Dropdown.Menu>
+                                {getQuestions(2)}
+                            </Dropdown.Menu>
+                        </Dropdown>  
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta2(e.target.value)} />
+                    </Form.Group>
+    
+                <Form.Group>
+                    <Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                {q3}
+                            </Dropdown.Toggle>
+    
+                            <Dropdown.Menu>
+                                {getQuestions(3)}
+                            </Dropdown.Menu>
+                        </Dropdown>  
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta3(e.target.value)} />
+                </Form.Group>
+    
+                </Tab>
+                <Tab eventKey="picture" title="Draw a Picture" onClick={() => {setDrawing(true)}}>
+                    <h3 className='drawing-text'>You can add a picture or drawing here!</h3>
+                    <input type='file' id='file' ref={inputFile} accept="image/png, image/jpeg" style={{marginBottom:'50px'}} />
+                </Tab>
+            </Tabs>;
+    
+        }
+
+        else {
+            return <div>
+                                    <Form.Group style={{marginTop:'25px'}}>
+                    <Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" >
+                                {q1}
+                            </Dropdown.Toggle>
+    
+                            <Dropdown.Menu>
+                                {getQuestions(1)}
+                            </Dropdown.Menu>
+                        </Dropdown>  
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta1(e.target.value)} />
+                    </Form.Group>
+    
+                    <Form.Group>
+                    <Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                {q2}
+                            </Dropdown.Toggle>
+    
+                            <Dropdown.Menu>
+                                {getQuestions(2)}
+                            </Dropdown.Menu>
+                        </Dropdown>  
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta2(e.target.value)} />
+                    </Form.Group>
+    
+                <Form.Group>
+                    <Form.Label>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                {q3}
+                            </Dropdown.Toggle>
+    
+                            <Dropdown.Menu>
+                                {getQuestions(3)}
+                            </Dropdown.Menu>
+                        </Dropdown>  
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta3(e.target.value)} />
+                </Form.Group>
+
+            </div>;
+        }
+
+    }
+
     return (
         <div>
             <Container>
@@ -286,57 +417,7 @@ const BookForm=(props) => {
                         <Form.Control placeholder={getPagePlaceholder()} onChange={(e) => setPages(e.target.value)} />
                     </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic" >
-                                    {q1}
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    {getQuestions(1)}
-                                </Dropdown.Menu>
-                            </Dropdown>  
-                        </Form.Label>
-                        <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta1(e.target.value)} />
-                        </Form.Group>
-
-                        <Form.Group>
-                        <Form.Label>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    {q2}
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    {getQuestions(2)}
-                                </Dropdown.Menu>
-                            </Dropdown>  
-                        </Form.Label>
-                        <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta2(e.target.value)} />
-                        </Form.Group>
-
-                        <Form.Group>
-                        <Form.Label>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    {q3}
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    {getQuestions(3)}
-                                </Dropdown.Menu>
-                            </Dropdown>  
-                        </Form.Label>
-                        <Form.Control as="textarea" rows={5} placeholder={getMinSentences()} onChange={(e) => seta3(e.target.value)} />
-                    </Form.Group>
-
-                    <h3 className='drawing-text'>You can add a picture or drawing here!</h3>
-                    <br />
-
-                    <input type='file' id='file' ref={inputFile} accept="image/png, image/jpeg" style={{marginBottom:'50px'}} />
-                    <br />
-
+                    {getPictureOrQuestions()}
 
                     <Link to ={{
                         pathname:'/',

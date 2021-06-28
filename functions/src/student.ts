@@ -182,11 +182,13 @@ export const getPrizes = functions.https.onRequest(
         const name = d.data().name;
         const target1 = d.data().target1;
         const target2 = d.data().target2;
+        const target3 = d.data().target3;
 
         const obj = {
           name,
           target1,
           target2,
+          target3,
         };
 
         prizes.push(obj);

@@ -21,6 +21,8 @@ function App() {
   const [uid, setUid] = useState('');
 
   const [name, setName] = useState('');
+  const [last, setLast] = useState('');
+
   const [grade, setGrade] = useState(-2);
   const [prizeName, setPrizeName] = useState('');
   const [prizeTarget, setPrizeTarget] = useState(0);
@@ -58,8 +60,7 @@ function App() {
       .catch((error) => {
           console.error('Error:', error.message);
       });
-      
-  
+        
   },
   [uid, grade]
   );
@@ -68,6 +69,7 @@ function App() {
   function gotStudent(s) {
 
       setName(s.firstName);
+      setLast(s.lastName);
       setGrade(s.grade);
 
       console.log("NEXT:", s.next_prize);
@@ -100,13 +102,18 @@ function App() {
       setPrizeName(p.name);
       console.log("P", p);
   
-      if (grade < 2 && grade > -2) {
+      if (grade <= 2) {
           setPrizeTarget(p.target1);
       }
   
-      else if (grade >= 2) {
+      else if (grade == 3 && grade == 4) {
           setPrizeTarget(p.target2);
       } 
+
+      else if (grade >= 5) {
+        setPrizeTarget(p.target3);
+    } 
+
   }
   
   
@@ -125,7 +132,7 @@ function App() {
 
 
           <Route path="/">
-            <MainPage name={name} grade={grade} prizes={prizes} prizeTarget={prizeTarget} prizeName={prizeName} books={books} uid={uid} />
+            <MainPage name={name} last={last} grade={grade} prizes={prizes} prizeTarget={prizeTarget} prizeName={prizeName} books={books} uid={uid} />
           </Route>
 
 
