@@ -266,7 +266,7 @@ const MainPage=(props) => {
                 <Navbar name={name} />
                 <br />
                 <br />
-                <h2 className='welcome-text'>Welcome to the All Saints Summer Reading Club!<br/> <text style={{fontWeight: '300'}}>To get started, create a new account with your school email (or login if you already have an account).</text></h2>
+                <h2 className='welcome-text'>Welcome to the All Saints Reading Club!<br/> <text style={{fontWeight: '300'}}>To get started, create a new account with your school email (or login if you already have an account).</text></h2>
                 <img src={vacation} style={{marginLeft:'8.5vw', marginTop:'50px'}} />
                 <img src={logo} style={{width: '150px', marginLeft: '44vw', marginTop: '50px'}} />
             </div>
